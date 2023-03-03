@@ -15,22 +15,21 @@ const ProfilePage = () => {
   const token = useSelector((state) => state.token);
   const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
 
-  const getUser = async () => {
-    const response = await fetch(
-      `https://idanlsocialapi.onrender.com/users/${profileId}`,
-      {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-
-    const data = await response.json();
-    setProfileUser(data);
-  };
-
   useEffect(() => {
+    const getUser = async () => {
+      const response = await fetch(
+        `https://idanlsocialapi.onrender.com/users/${profileId}`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      const data = await response.json();
+      setProfileUser(data);
+    };
     getUser();
   }, []); //eslint-diable-line react-hooks/exhaustive-deps
 

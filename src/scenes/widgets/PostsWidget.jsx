@@ -8,37 +8,36 @@ const PostsWidget = ({ userId, isProfile = false }) => {
   const posts = useSelector((state) => state.posts);
   const token = useSelector((state) => state.token);
 
-  //homepage posts
-  const getPosts = async () => {
-    const response = await fetch("https://idanlsocialapi.onrender.com/posts", {
-      method: "GET",
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    const data = await response.json();
-    data.reverse();
-    dispatch(setPosts({ posts: data }));
-  };
-
-  //user posts
-  const getUserPosts = async () => {
-    const response = await fetch(
-      `https://idanlsocialapi.onrender.com/posts/${userId}/posts`,
-      {
-        method: "GET",
-        headers: { Authorization: `Bearer ${token}` },
-      }
-    );
-    const data = await response.json();
-    data.reverse();
-    dispatch(setPosts({ posts: data }));
-  };
-
   useEffect(() => {
-    if (isProfile) {
-      getUserPosts();
-    } else {
-      getPosts();
-    }
+    //user posts
+    const getUserPosts = async () => {
+      const response = await fetch(
+        `https://idanlsocialapi.onrender.com/posts/${userId}/posts`,
+        {
+          method: "GET",
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      const data = await response.json();
+      data.reverse();
+      dispatch(setPosts({ posts: data }));
+    };
+
+    //homepage posts
+    const getPosts = async () => {
+      const response = await fetch(
+        "https://idanlsocialapi.onrender.com/posts",
+        {
+          method: "GET",
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      const data = await response.json();
+      data.reverse();
+      dispatch(setPosts({ posts: data }));
+    };
+
+    isProfile ? getUserPosts() : getPosts();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
