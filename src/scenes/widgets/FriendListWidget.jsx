@@ -4,6 +4,7 @@ import WidgetWrapper from "@/components/WidgetWrapper";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setFriends } from "@/state";
+import { api } from "@/api/api.js";
 
 const FriendListWidget = ({ userId }) => {
   const dispatch = useDispatch();
@@ -12,21 +13,12 @@ const FriendListWidget = ({ userId }) => {
   const friends = useSelector((state) => state.user.friends);
 
   useEffect(() => {
-    const getFriends = async () => {
-      const response = await fetch(
-        `https://idanlsocialapi.onrender.com/users/${userId}/friends`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      const data = await response.json();
+    const getFriendsFromApi = async () => {
+      const data = await api.getFriends(userId, token);
       dispatch(setFriends({ friends: data }));
     };
-    getFriends();
+
+    getFriendsFromApi();
   }, []); //eslist-disable-line react-hooks/exhaustive-deps
 
   return (

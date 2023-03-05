@@ -2,6 +2,7 @@ import { useTheme, InputBase } from "@mui/material";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setPost } from "@/state";
+import { api } from "@/api/api.js";
 
 const AddComment = ({ postId, setIsComments }) => {
   const dispatch = useDispatch();
@@ -12,19 +13,7 @@ const AddComment = ({ postId, setIsComments }) => {
 
   //Update post with new comment
   const submitComment = async () => {
-    const response = await fetch(
-      `https://idanlsocialapi.onrender.com/posts/${postId}/addcomment`,
-      {
-        method: "PATCH",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ content: comment }),
-      }
-    );
-
-    const updatedPost = await response.json();
+    const updatedPost = await api.submitComment(postId, comment, token);
     dispatch(setPost({ post: updatedPost }));
     setComment("");
     setIsComments(true);

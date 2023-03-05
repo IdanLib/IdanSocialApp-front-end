@@ -3,6 +3,7 @@ import { DeleteOutlineOutlined } from "@mui/icons-material";
 import FlexBetween from "@/components/FlexBetween";
 import { useDispatch, useSelector } from "react-redux";
 import { setPost } from "@/state";
+import { api } from "@/api/api.js";
 
 const Comments = ({ postUserId, postId, comments, name }) => {
   const dispatch = useDispatch();
@@ -15,19 +16,7 @@ const Comments = ({ postUserId, postId, comments, name }) => {
 
   //update post by removing comment
   const delComment = async (index) => {
-    const response = await fetch(
-      `https://idanlsocialapi.onrender.com/posts/${postId}/comment`,
-      {
-        method: "PATCH",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ indexToDel: index }),
-      }
-    );
-
-    const updatedPost = await response.json();
+    const updatedPost = await api.delComment(postId, index, token);
     dispatch(setPost({ post: updatedPost }));
   };
 

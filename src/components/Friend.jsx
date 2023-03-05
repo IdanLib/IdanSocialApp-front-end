@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { setFriends } from "@/state/index";
 import FlexBetween from "@/components/FlexBetween.jsx";
 import UserImage from "./UserImage";
+import { api } from "@/api/api";
 
 const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
   const dispatch = useDispatch();
@@ -22,17 +23,7 @@ const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
   const isFriendSameAsUser = friendId === _id;
 
   const patchFriend = async () => {
-    const response = await fetch(
-      `https://idanlsocialapi.onrender.com/users/${_id}/${friendId}`,
-      {
-        method: "PATCH",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      }
-    );
-    const data = await response.json();
+    const data = await api.patchFriend(_id, friendId, token);
     dispatch(setFriends({ friends: data }));
   };
 

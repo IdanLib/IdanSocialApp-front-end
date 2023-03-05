@@ -15,6 +15,7 @@ import { useDispatch } from "react-redux";
 import { setLogin } from "@/state";
 import Dropzone from "react-dropzone";
 import FlexBetween from "@/components/FlexBetween";
+import { api } from "@/api/api.js";
 
 //defining the schema for yup validation
 const registerSchema = yup.object().shape({
@@ -74,15 +75,8 @@ const Form = () => {
     }
     formData.append("picturePath", values.picture.name);
 
-    const savedUserResponse = await fetch(
-      "https://idanlsocialapi.onrender.com/auth/register",
-      {
-        method: "POST",
-        body: formData,
-      }
-    );
-    const savedUser = await savedUserResponse.json();
-    console.log(savedUser);
+    const savedUser = await api.registerUser(formData);
+
     onSubmitProps.resetForm();
 
     //upon successful submission to the server
@@ -92,16 +86,7 @@ const Form = () => {
   };
 
   const loginSubmit = async (values, onSubmitProps) => {
-    const loggedInResponse = await fetch(
-      "https://idanlsocialapi.onrender.com/auth/login",
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(values),
-      }
-    );
-
-    const loggedIn = await loggedInResponse.json();
+    const loggedIn = await api.loginUser(values);
     onSubmitProps.resetForm();
 
     if (loggedIn.user) {

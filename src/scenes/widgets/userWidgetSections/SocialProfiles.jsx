@@ -11,6 +11,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { EditOutlined } from "@mui/icons-material";
 import { setSocial } from "@/state";
+import { api } from "@/api/api.js";
 
 export const SocialProfiles = ({ user, setUser }) => {
   const [twitterHandle, setTwitterHandle] = useState(user.twitter);
@@ -27,20 +28,7 @@ export const SocialProfiles = ({ user, setUser }) => {
 
   const updateSocialHandle = async (handlingFunc) => {
     let reqBody = handlingFunc();
-
-    const response = await fetch(
-      `https://idanlsocialapi.onrender.com/users/${user._id}/updatesocial`,
-      {
-        method: "PATCH",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(reqBody),
-      }
-    );
-
-    const data = await response.json();
+    const data = await api.updateSocialHandle(user, reqBody, token);
     setUser(data);
 
     dispatch(

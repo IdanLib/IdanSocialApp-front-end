@@ -56,7 +56,7 @@ const Navbar = () => {
             },
           }}
         >
-          Idan's SocialApp
+          Friends of Idan
         </Typography>
         {isNonMobileScreens && (
           <FlexBetween

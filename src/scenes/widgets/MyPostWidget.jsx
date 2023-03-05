@@ -24,6 +24,7 @@ import WidgetWrapper from "@/components/WidgetWrapper";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setPosts } from "@/state";
+import { api } from "@/api/api.js";
 
 const MyPostWidget = ({ picturePath }) => {
   const dispatch = useDispatch();
@@ -47,18 +48,15 @@ const MyPostWidget = ({ picturePath }) => {
       formData.append("picturePath", image.name);
     }
 
-    const response = await fetch("https://idanlsocialapi.onrender.com/posts", {
-      method: "POST",
-      headers: { Authorization: `Bearer ${token}` },
-      body: formData,
-    });
-
-    const posts = await response.json();
-    posts.reverse();
-    dispatch(setPosts({ posts }));
-    //resetting local image and post states after post submission
-    setImage(null);
-    setPost("");
+    const handlePostViaApi = async (token, formData) => {
+      const posts = await api.handlePost(token, formData);
+      posts.reverse();
+      dispatch(setPosts({ posts }));
+      //resetting local image and post states after post submission
+      setImage(null);
+      setPost("");
+    };
+    handlePostViaApi(token, formData);
   };
 
   return (

@@ -11,6 +11,7 @@ import { SocialProfiles } from "./userWidgetSections/SocialProfiles";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { api } from "@/api/api.js";
 
 const UserWidget = ({ userId, picturePath }) => {
   const [user, setUser] = useState(null);
@@ -23,21 +24,12 @@ const UserWidget = ({ userId, picturePath }) => {
   const main = palette.neutral.main;
 
   useEffect(() => {
-    const getUser = async () => {
-      const response = await fetch(
-        `https://idanlsocialapi.onrender.com/users/${userId}`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      const data = await response.json();
+    const getUserFromApi = async () => {
+      const data = await api.getUser(userId, token);
       setUser(data);
     };
-    getUser();
+
+    getUserFromApi();
   }, []);
 
   if (!user) {

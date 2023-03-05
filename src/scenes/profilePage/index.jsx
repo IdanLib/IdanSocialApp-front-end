@@ -7,6 +7,7 @@ import FriendListWidget from "@/scenes/widgets/FriendListWidget";
 import MyPostWidget from "@/scenes/widgets/MyPostWidget";
 import PostsWidget from "@/scenes/widgets/PostsWidget";
 import UserWidget from "@/scenes/widgets/UserWidget";
+import { api } from "@/api/api";
 
 const ProfilePage = () => {
   const { userId: profileId } = useParams();
@@ -16,21 +17,12 @@ const ProfilePage = () => {
   const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
 
   useEffect(() => {
-    const getUser = async () => {
-      const response = await fetch(
-        `https://idanlsocialapi.onrender.com/users/${profileId}`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      const data = await response.json();
+    const getUserFromApi = async () => {
+      const data = await api.getUser(profileId, token);
       setProfileUser(data);
     };
-    getUser();
+
+    getUserFromApi();
   }, []); //eslint-diable-line react-hooks/exhaustive-deps
 
   if (!profileUser) {

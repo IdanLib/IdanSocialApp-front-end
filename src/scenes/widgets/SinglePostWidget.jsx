@@ -19,6 +19,7 @@ import AddComment from "./singlePostSections/AddComment";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setPost, setPosts } from "../../state";
+import { api } from "@/api/api.js";
 
 const SinglePostWidget = ({
   postId,
@@ -46,34 +47,13 @@ const SinglePostWidget = ({
   const primary = palette.primary.main;
 
   const deletePost = async () => {
-    const response = await fetch(
-      `https://idanlsocialapi.onrender.com/posts/${postId}/delete`,
-      {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-
-    const posts = await response.json();
+    const posts = await api.deletePost(postId, token);
     posts.reverse();
     dispatch(setPosts({ posts }));
   };
-  const patchLike = async () => {
-    const response = await fetch(
-      `https://idanlsocialapi.onrender.com/posts/${postId}/like`,
-      {
-        method: "PATCH",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ userId: loggedInUserId }),
-      }
-    );
-    const updatedPost = await response.json();
 
+  const patchLike = async () => {
+    const updatedPost = await api.patchLike(postId, loggedInUserId, token);
     dispatch(setPost({ post: updatedPost }));
   };
 

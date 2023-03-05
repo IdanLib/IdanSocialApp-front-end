@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setPosts } from "@/state";
 import SinglePostWidget from "./SinglePostWidget";
+import { api } from "@/api/api.js";
 
 const PostsWidget = ({ userId, isProfile = false }) => {
   const dispatch = useDispatch();
@@ -11,28 +12,14 @@ const PostsWidget = ({ userId, isProfile = false }) => {
   useEffect(() => {
     //user posts
     const getUserPosts = async () => {
-      const response = await fetch(
-        `https://idanlsocialapi.onrender.com/posts/${userId}/posts`,
-        {
-          method: "GET",
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
-      const data = await response.json();
+      const data = await api.getUserPosts(userId, token);
       data.reverse();
       dispatch(setPosts({ posts: data }));
     };
 
     //homepage posts
     const getPosts = async () => {
-      const response = await fetch(
-        "https://idanlsocialapi.onrender.com/posts",
-        {
-          method: "GET",
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
-      const data = await response.json();
+      const data = await api.getPosts(token);
       data.reverse();
       dispatch(setPosts({ posts: data }));
     };

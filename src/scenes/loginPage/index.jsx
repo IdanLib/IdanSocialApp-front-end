@@ -10,7 +10,7 @@ const LoginPage = () => {
     <Box>
       <Box width="100%" backgroundColor={alt} p="1rem 6%" textAlign="center">
         <Typography fontWeight="bold" fontSize="32px" color="primary">
-          Idan's SocialApp
+          Friends of Idan
         </Typography>
       </Box>
 
