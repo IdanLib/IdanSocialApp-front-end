@@ -27,7 +27,7 @@ export const SocialProfiles = ({ user, setUser }) => {
   const main = palette.neutral.main;
 
   const updateSocialHandle = async (handlingFunc) => {
-    let reqBody = handlingFunc();
+    const reqBody = handlingFunc();
     const data = await api.updateSocialHandle(user, reqBody, token);
     setUser(data);
 
