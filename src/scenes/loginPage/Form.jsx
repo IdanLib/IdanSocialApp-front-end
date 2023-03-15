@@ -292,6 +292,18 @@ const Form = () => {
           User not found. Try again or register.
         </Typography>
       )}
+
+      <Typography
+        fontWeight="400"
+        fontSize="1.2rem"
+        variant="h5"
+        sx={{ m: "1.5rem" }}
+      >
+        To log in easily, use email "guest@user.com" and password "123".
+      </Typography>
+      <Typography fontWeight="400" fontSize="0.9rem" variant="h3">
+        Please allow about 20 seconds for the first login to take effect.
+      </Typography>
     </>
   );
 };
