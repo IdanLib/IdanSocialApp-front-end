@@ -16,6 +16,9 @@ import ShareButtons from "./singlePostSections/ShareButtons";
 import Comments from "./singlePostSections/Comments";
 import AddComment from "./singlePostSections/AddComment";
 
+import { AdvancedImage } from "@cloudinary/react";
+import { Cloudinary } from "@cloudinary/url-gen";
+
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setPost, setPosts } from "../../state";
@@ -46,6 +49,14 @@ const SinglePostWidget = ({
   const main = palette.neutral.main;
   const primary = palette.primary.main;
 
+  const cld = new Cloudinary({
+    cloud: {
+      cloudName: "ddszkagqm",
+    },
+  });
+
+  const postImage = cld.image(`friends-of-idan-app/${picturePath}`);
+
   const deletePost = async () => {
     const posts = await api.deletePost(postId, token);
     posts.reverse();
@@ -69,12 +80,12 @@ const SinglePostWidget = ({
         {description}
       </Typography>
       {picturePath && (
-        <img
+        <AdvancedImage
+          cldImg={postImage}
           width="100%"
           height="auto"
-          alt="post"
+          alt="post image"
           style={{ borderRadius: "0.75rem", marginTop: "0.75rem" }}
-          src={`https://idanlsocialapi.onrender.com/assets/${picturePath}`}
         />
       )}
 
