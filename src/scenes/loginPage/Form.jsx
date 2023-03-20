@@ -243,7 +243,6 @@ const Form = () => {
                 sx={{ gridColumn: "span 4" }}
               />
             </Box>
-
             {/* Buttons */}
             <Box>
               <Button
@@ -279,6 +278,30 @@ const Form = () => {
                   : "Already have an account? Log in here!"}
               </Typography>
             </Box>
+
+            {/* Guest Login */}
+            <Button
+              fullWidth
+              onClick={() => {
+                handleFormSubmit(
+                  { email: "guest@user.com", password: "123" },
+                  { resetForm }
+                );
+              }}
+              variant="outlined"
+              type="button"
+              sx={{
+                m: "2rem 0",
+                p: "1rem",
+                "&:hover": { color: palette.primary.main },
+              }}
+            >
+              Log in as Guest
+            </Button>
+            <Typography fontWeight="400" fontSize="1.1rem" variant="h3">
+              Due to hosting limitations, please allow about 20 seconds for the
+              first login to take effect.
+            </Typography>
           </form>
         )}
       </Formik>
@@ -292,18 +315,6 @@ const Form = () => {
           User not found. Try again or register.
         </Typography>
       )}
-
-      <Typography
-        fontWeight="400"
-        fontSize="1.2rem"
-        variant="h5"
-        sx={{ m: "1.5rem" }}
-      >
-        To log in easily, use email "guest@user.com" and password "123".
-      </Typography>
-      <Typography fontWeight="400" fontSize="0.9rem" variant="h3">
-        Please allow about 20 seconds for the first login to take effect.
-      </Typography>
     </>
   );
 };
